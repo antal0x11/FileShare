@@ -4,13 +4,19 @@ const fs = require('fs');
 const multer = require('multer');
 const session = require('express-session');
 
+const { isAuthenticated } = require('./routes/authentication');
+const home = require("./routes/home");
+const list = require("./routes/list");
+const instructions = require("./routes/instructions");
+const about = require("./routes/about");
+
 const app = express();
 const port = 3000;
 
 const storage = multer.diskStorage({
 	destination: function(req, file, cb) {
-		//cb(null, path.join(__dirname, 'uploads/')) 
-		cb(null, '/uploads'); 
+		cb(null, path.join(__dirname, 'uploads/')) 
+		//cb(null, '/uploads'); 
 	},
 	filename: function(req, file, cb) {
 		const uniqueFileName = Date.now() + '-' + file.originalname;
@@ -29,70 +35,10 @@ app.use(session({
 
 app.use(express.static('static'));
 
-function isAuthenticated (req,res,next) {
-	if (req.session && req.session.user) next()
-	else res.redirect('/login')
-}
-
-app.get("/", (req,res,next) => {
-
-	const options = {
-		root: path.join(__dirname, "/static"),
-		dotfiles: 'deny'
-	};
-
-	res.status(200).sendFile('index.html', options, (err) => {
-		if(err) {
-			console.error("[+] Failed to sent html.");
-			res.status(500).send("<h3>Sever Error</h3>");
-		}
-	});
-});
-
-app.get("/list", isAuthenticated, (req,res,next) => {
-
-	const options = {
-		root: path.join(__dirname, "/static"),
-		dotfiles: 'deny'
-	};
-
-	res.status(200).sendFile('list.html', options, (err) => {
-		if(err) {
-			console.error("[+] Failed to sent html.");
-			res.status(500).send("<h3>Sever Error</h3>");
-		}
-	});
-});
-
-app.get("/instructions", (req,res,next) => {
-
-	const options = {
-		root: path.join(__dirname, "/static"),
-		dotfiles: 'deny'
-	};
-
-	res.status(200).sendFile('instructions.html', options, (err) => {
-		if(err) {
-			console.error("[+] Failed to sent html.");
-			res.status(500).send("<h3>Sever Error</h3>");
-		}
-	});
-});
-
-app.get("/about", (req,res,next) => {
-
-	const options = {
-		root: path.join(__dirname, "/static"),
-		dotfiles: 'deny'
-	};
-
-	res.status(200).sendFile('about.html', options, (err) => {
-		if(err) {
-			console.error("[+] Failed to sent html.");
-			res.status(500).send("<h3>Sever Error</h3>");
-		}
-	});
-});
+app.use("/", home);
+app.use("/", list);
+app.use("/", instructions);
+app.use("/", about);
 
 app.get("/login", (req,res,next) => {
 
@@ -112,8 +58,8 @@ app.get("/login", (req,res,next) => {
 app.get("/files/list", isAuthenticated, (req,res,next) => {
 	let resArray = new Array();
 	let response =  '<ul>';
-	//fs.readdirSync(path.join(__dirname, 'uploads')).forEach(file => {
-	fs.readdirSync('/uploads').forEach(file => {
+	fs.readdirSync(path.join(__dirname, 'uploads')).forEach(file => {
+	//fs.readdirSync('/uploads').forEach(file => {
 		response += `<li>${file}</li>`;
 		resArray.push(file);
 	});
@@ -130,8 +76,8 @@ app.get("/file/:name", isAuthenticated, (req,res,next) => {
 
 	const options = {
 		maxAge: '1d',
-		//root: path.join(__dirname, 'uploads'),
-		root: '/uploads',
+		root: path.join(__dirname, 'uploads'),
+		//root: '/uploads',
 		headers: {
 			'x-timestamp': Date.now(),
 			'x-sent': true,
@@ -169,6 +115,13 @@ app.get("/upload", isAuthenticated, (req,res,next)=> {
 });
 
 app.post('/upload', isAuthenticated, upload.single('test_file'),(req,res,next) => {
+	console.log({ 
+		'file' : req.file.originalname, 
+		'userId' : req.session.userId, 
+		'author' : 'Tony Pink', 
+		'date_created' : Date.now(), 
+		'size' : req.file.size / (1024 * 1024)
+	});
 	res.status(200).redirect('/list');
 });
 
@@ -179,7 +132,7 @@ app.post('/login', express.urlencoded({ extended: false }), (req,res,next) => {
 		}
 
 		if (req.body.username === 'luna' && req.body.password === '12345') {
-			req.session.user = "some-user-id-12345-67890";
+			req.session.userId = "some-user-id-12345-67890";
 
 			req.session.save((err) => {
 				if (err) {
