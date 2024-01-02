@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>File Central</title>
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+	<body>
+		<h3>File Central</h3>
+
+		<ul>
+			<li><a href="/">Home</a></li>
+			<li><a href="/list">List</a></li>
+			<li><a href="/upload">Upload</a></li>
+			<li><a href="/instructions">Insructions</a></li>
+			<li><a href="/about">About</a></li>
+			<li><a href="/logout">Logout</a></li>
+		</ul>
+		
+		<div class="form">
+			<form action="/upload" enctype="multipart/form-data" method="post">
+				<label for="upload_field">Select File: </label>
+				<input type="file" name="test_file" />
+				<input type="submit" placeholder="Submit">
+			</form>
+		</div>
+	</body>
+</html>

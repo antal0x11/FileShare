@@ -1,0 +1,92 @@
+html,body {
+	margin: 0px;
+	font-family: monospace;
+}
+
+h3 {
+	text-align: center;
+}
+
+p {
+	text-align: center;
+	font-size: 14px;
+}
+
+ul {
+	display: inline-flex;
+	flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+
+    list-style-type: none;
+	margin: 0;
+	background-color: #333;
+}
+
+li {
+	float: left;
+}
+
+li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+li:hover {
+	background-color: #111;
+	cursor: pointer;
+}
+
+table {
+	position: absolute;
+	top: 12%;
+	margin: 0px;
+	border-collapse: collapse;
+	width: 100%;
+	text-align: center;
+}
+
+thead {
+	font-s
+}
+
+th, td {
+	padding: 10px;
+	border-bottom: 1px solid #ddd;
+}
+
+.name-cell:hover {
+	cursor: pointer;
+}
+
+.body-row:hover {
+	background-color: #444;
+	color: white;
+}
+
+.form {
+	display: flex;
+	flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+input[type="text"] {
+	padding: 5px 8px;
+}
+
+input[type="password"] {
+	padding: 5px 8px;
+}
+
+
