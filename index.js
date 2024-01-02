@@ -9,8 +9,8 @@ const port = 3000;
 
 const storage = multer.diskStorage({
 	destination: function(req, file, cb) {
-		cb(null, path.join(__dirname, 'uploads/')) 
-		//cb(null, '/uploads'); 
+		//cb(null, path.join(__dirname, 'uploads/')) 
+		cb(null, '/uploads'); 
 	},
 	filename: function(req, file, cb) {
 		const uniqueFileName = Date.now() + '-' + file.originalname;
@@ -112,8 +112,8 @@ app.get("/login", (req,res,next) => {
 app.get("/files/list", isAuthenticated, (req,res,next) => {
 	let resArray = new Array();
 	let response =  '<ul>';
-	fs.readdirSync(path.join(__dirname, 'uploads')).forEach(file => {
-	// fs.readdirSync('/uploads').forEach(file => {
+	//fs.readdirSync(path.join(__dirname, 'uploads')).forEach(file => {
+	fs.readdirSync('/uploads').forEach(file => {
 		response += `<li>${file}</li>`;
 		resArray.push(file);
 	});
@@ -130,8 +130,8 @@ app.get("/file/:name", isAuthenticated, (req,res,next) => {
 
 	const options = {
 		maxAge: '1d',
-		root: path.join(__dirname, 'uploads'),
-		//root: '/uploads',
+		//root: path.join(__dirname, 'uploads'),
+		root: '/uploads',
 		headers: {
 			'x-timestamp': Date.now(),
 			'x-sent': true,
