@@ -6,7 +6,7 @@ const router = express.Router();
 function loginUI(req, res, next) {
 
 	const options = {
-		root: path.join(__dirname, '..', '/static'),
+		root: path.join(__dirname, '..', '/static/html'),
 		dotfiles: 'deny'
 	};
 

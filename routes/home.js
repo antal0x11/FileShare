@@ -1,10 +1,11 @@
 const express = require('express');
+const path = require('path');
 
 const router = express.Router();
 
 function home(req,res,next) {
 	const options = {
-		root: path.join(__dirname,"..","/static"),
+		root: path.join(__dirname,"..","/static/html"),
 		dotfiles: 'deny'
 	};
 
