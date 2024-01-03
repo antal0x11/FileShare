@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+const { createHash } = require('crypto');
+const User = require('../models/users');
 
 const router = express.Router();
 
@@ -20,13 +22,17 @@ function loginUI(req, res, next) {
 
 function loginServer(req, res, next) {
 
-	req.session.regenerate((err) => {
+	req.session.regenerate( async (err) => {
 		if (err) {
 			console.error('[+] Login Error.');
 		}
 
-		if (req.body.username === 'luna' && req.body.password === '12345') {
-			req.session.userId = "some-user-id-12345-67890";
+		const response = await getUser(req.body.username,req.body.password);
+
+		if (response) {
+			req.session.userId = response.id;
+			req.session.firstname = response.firstname;
+			req.session.lastname = response.lastname;
 
 			req.session.save((err) => {
 				if (err) {
@@ -36,9 +42,30 @@ function loginServer(req, res, next) {
 				}
 			})
 		} else {
-			res.status(403).send('<h3>You have to be signed in</h3>');
+			res.status(403).redirect('/login');
 		}
 	});
+}
+
+async function getUser(username,password) {
+
+	const userExists = await User.findOne({ where: {
+			username : username,
+			password: createHash('sha256').update(password).digest('hex')
+		}
+	});
+
+	if (userExists === null) {
+		return null;
+	} else {
+		return {
+			'id' : userExists.id,
+			'username': userExists.username,
+			'firstname': userExists.firstName,
+			'lastname': userExists.lastName,
+			'role': userExists.role
+		};
+	}
 }
 
 router.get('/login', loginUI);

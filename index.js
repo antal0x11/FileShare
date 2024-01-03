@@ -10,9 +10,20 @@ const filesList = require('./routes/filesList');
 const fileSender = require('./routes/fileSender');
 const login = require('./routes/login');
 const logout = require('./routes/logout');
+const sequelize = require('./config/db');
+
+sequelize.authenticate().then( async () => {
+	console.log('[+] Database Connection Successful.');
+	await sequelize.sync();
+	console.log('[+] Relations sync completed');
+
+}).catch( (error) => {
+	console.error('[+] Database Connection Failure.');
+	console.error(error);
+});
+
 
 const app = express();
-const port = 3000;
 
 app.use(session({
 	secret: 'supersecret',
@@ -33,6 +44,6 @@ app.use('/', fileSender);
 app.use('/', login);
 app.use('/', logout);
 
-app.listen(port, () => {
+app.listen(process.env.PORT, () => {
 	console.log('[+] Server is up.');
-})
+});
