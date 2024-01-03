@@ -1,7 +1,8 @@
 const express = require('express');
 const path = require('path');
-const router = express.Router();
 const { isAuthenticated } = require('./authentication');
+
+const router = express.Router();
 
 function list(req,res,next) {
 
