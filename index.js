@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const path = require('path');
 const { isAuthenticated } = require('./routes/authentication');
 const home = require('./routes/home');
 const list = require('./routes/list');

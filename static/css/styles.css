@@ -24,6 +24,7 @@ ul {
     list-style-type: none;
 	margin: 0;
 	background-color: #333;
+	font-size: 15px;
 }
 
 li {
@@ -89,4 +90,8 @@ input[type="password"] {
 	padding: 5px 8px;
 }
 
+img {
+	width: 100%;
+	height: auto;
+}
 
