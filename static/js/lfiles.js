@@ -9,23 +9,21 @@ async function fileList() {
 	});
 	const fileObjects = await listResponse.json();
 	const tableBody = document.getElementById('table-info');
-	fileObjects.file.map(item => {
+	fileObjects.files.map(item => {
 		let row = tableBody.insertRow(-1);
 		row.className = 'body-row';
 		let cellName = row.insertCell(0);
 		cellName.className = 'name-cell';
 		let cellAuthor = row.insertCell(1);
 		let cellDate = row.insertCell(2);
-		let cellLastModidfied = row.insertCell(3);
-		let cellLastModidfiedBy = row.insertCell(4);
-		let cellSize = row.insertCell(5);
+		let cellLastUpdate = row.insertCell(3);
+		let cellSize = row.insertCell(4);
 
-		cellName.innerHTML = item;
-		cellAuthor.innerHTML = 'Tony Pink';
-		cellDate.innerHTML = 'Some date';
-		cellLastModidfied.innerHTML = 'Some date modified';
-		cellLastModidfiedBy.innerHTML = 'Tony Pink';
-		cellSize.innerHTML = '5MB';
+		cellName.innerHTML = item.name;
+		cellAuthor.innerHTML = item.author;
+		cellDate.innerHTML = item.date;
+		cellLastUpdate.innerHTML = item.lastUpdate;
+		cellSize.innerHTML = item.size;
 		
 		cellName.addEventListener('click', async (event) => {
 			const fileRequest = event.target.innerText;

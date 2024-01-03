@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const multer = require('multer');
 const { isAuthenticated } = require('./authentication');
+const File = require('../models/files');
 
 const router = express.Router();
 
@@ -20,7 +21,7 @@ const upload = multer({ storage: storage });
 
 function uploadRoute(req, res, next) {
 	const options = {
-		root: path.join(__dirname, "..", "/static/html"),
+		root: path.join(__dirname, '..', '/static/html'),
 		dotfiles: 'deny'
 	};
 
@@ -32,7 +33,7 @@ function uploadRoute(req, res, next) {
 	});
 }
 
-function uploadFile(req, res, next) {
+async function uploadFile(req, res, next) {
 	console.log({ 
 		'file' : req.file.originalname, 
 		'userId' : req.session.userId, 
@@ -40,7 +41,21 @@ function uploadFile(req, res, next) {
 		'date_created' : Date.now(), 
 		'size' : req.file.size / (1024 * 1024)
 	});
-	res.status(200).redirect('/list');
+
+	try {
+		await File.create({
+			'userID' : req.session.userId,
+			'fileName' : req.file.originalname,
+			'firstName' : req.session.firstname,
+			'lastName': req.session.lastname,
+			'fileSize' : req.file.size / ( 1024 * 1024)
+		});
+
+		res.status(200).redirect('/list');
+	} catch(error) {
+		console.error(error);
+		res.status(500).redirect('/list');
+	}
 }
 
 router.get("/upload", isAuthenticated, uploadRoute);

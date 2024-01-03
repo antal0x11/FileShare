@@ -8,6 +8,10 @@ const File = sequelize.define('File', {
 		allowNull: false,
 		primaryKey: true
 	},
+	userID: {
+		type: DataTypes.UUID,
+		allowNull: false
+	},
 	fileName: {
 		type: DataTypes.STRING,
 		allowNull: false

@@ -1,18 +1,40 @@
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
 const { isAuthenticated } = require('./authentication');
+const File = require('../models/files');
 
 const router = express.Router();
 
-function filesList(req, res, next) {
+async function filesList(req, res, next) {
 
 	const resArray = new Array();
-	fs.readdirSync(path.join(__dirname, '..', 'uploads')).forEach(file => {
-	//fs.readdirSync('/uploads').forEach(file => {
-		resArray.push(file);
-	});
-	res.status(200).json({file : resArray});
+
+	try {
+		const resArray = new Array();
+
+		const results = await File.findAll({
+			attributes: {
+				exclude: ['id', 'userID']
+			}
+		});
+
+		results.map( (item) => {
+			const dt = new Date(item.date);
+			const sdt = new Date(item.updatedAt);
+
+			resArray.push({
+				'name' : item.fileName,
+				'author' : item.firstName + ' ' + item.lastName,
+				'date' : dt.toString().split(' G')[0],
+				'lastUpdate' : sdt.toString().split( 'G')[0],
+				'size' : item.fileSize.toFixed(3) + ' MB'
+			})
+		})
+
+		res.status(200).json({files : resArray});
+	} catch(error) {
+		console.error(error);
+		res.status(500).json({file : resArray});
+	}
 }
 
 router.get('/files/list', isAuthenticated, filesList);

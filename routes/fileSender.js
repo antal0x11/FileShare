@@ -23,6 +23,10 @@ function fileSender(req, res, next) {
 		immutable: false
 	};
 
+	//add directories based on user-id
+	//search files in db
+	//send them their directory
+
 	res.status(200).download(fileName,options, (err) => {
 		if (err) {
 			console.error('[+] File Sent Error.');
