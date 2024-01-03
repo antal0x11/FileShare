@@ -1,6 +1,5 @@
 const express = require('express');
 const session = require('express-session');
-const path = require('path');
 const { isAuthenticated } = require('./routes/authentication');
 const home = require('./routes/home');
 const list = require('./routes/list');
@@ -22,7 +21,6 @@ sequelize.authenticate().then( async () => {
 	console.error('[+] Database Connection Failure.');
 	console.error(error);
 });
-
 
 const app = express();
 
