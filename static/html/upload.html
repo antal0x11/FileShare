@@ -17,13 +17,15 @@
 			<li><a href="/about">About</a></li>
 			<li><a href="/logout">Logout</a></li>
 		</ul>
-		
-		<div class="form">
-			<form action="/upload" enctype="multipart/form-data" method="post">
-				<label for="upload_field">Select File: </label>
-				<input type="file" name="test_file" />
-				<input type="submit" placeholder="Submit">
-			</form>
+		<div class='upd-area'>
+			<h5>Select your files here to upload</h5>
+			<div class="form">
+				<form action="/upload" enctype="multipart/form-data" method="post">
+					<label for="upload_field">Select File: </label>
+					<input type="file" name="test_file" />
+					<input type="submit" placeholder="Submit">
+				</form>
+			</div>
 		</div>
 	</body>
 </html>

@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const multer = require('multer');
 const { isAuthenticated } = require('./authentication');
 const File = require('../models/files');
@@ -8,12 +9,24 @@ const router = express.Router();
 
 const storage = multer.diskStorage({
 	destination: function(req, file, cb) {
-		cb(null, path.join(__dirname, '..','uploads/')) 
-		//cb(null, '/uploads'); 
+		//need to check again
+		try {
+			const directoryDestination = path.join(__dirname, '..', 'uploads', `${req.session.userId}/`);
+			if (fs.existsSync(directoryDestination)) {
+				cb(null, directoryDestination);
+			} else {
+				throw('Folder should exist.')
+			}
+			//cb(null, path.join(__dirname, '..','uploads/')) 
+			//cb(null, '/uploads'); 
+		} catch(error) {
+			console.error(error);
+		}
 	},
 	filename: function(req, file, cb) {
-		const uniqueFileName = Date.now() + '-' + file.originalname;
-		cb(null, uniqueFileName);
+		//const uniqueFileName = Date.now() + '-' + file.originalname;
+		//cb(null, uniqueFileName);
+		cb(null,file.originalname);
 	}
 })
 
@@ -34,23 +47,21 @@ function uploadRoute(req, res, next) {
 }
 
 async function uploadFile(req, res, next) {
-	console.log({ 
-		'file' : req.file.originalname, 
-		'userId' : req.session.userId, 
-		'author' : 'Tony Pink', 
-		'date_created' : Date.now(), 
-		'size' : req.file.size / (1024 * 1024)
-	});
-
 	try {
-		await File.create({
-			'userID' : req.session.userId,
-			'fileName' : req.file.originalname,
-			'firstName' : req.session.firstname,
-			'lastName': req.session.lastname,
-			'fileSize' : req.file.size / ( 1024 * 1024)
-		});
+		//need to better handle files
+		const lookUpFile = await File.findOne({ where: { fileName: req.file.originalname}});
 
+		if (lookUpFile) {
+			await File.update({ fileSize: req.file.size / ( 1024 * 1024) },{where: { userID: req.session.userId, fileName: req.file.originalname}});
+		} else {
+			await File.create({
+				'userID' : req.session.userId,
+				'fileName' : req.file.originalname,
+				'firstName' : req.session.firstname,
+				'lastName': req.session.lastname,
+				'fileSize' : req.file.size / ( 1024 * 1024)
+			});
+		}
 		res.status(200).redirect('/list');
 	} catch(error) {
 		console.error(error);

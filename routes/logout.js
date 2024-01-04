@@ -7,7 +7,6 @@ function logout(req, res, next) {
 		if (err) {
 			res.status(500).send('<h3>Error logging out</h3>');
 		} else {
-			//res.clearCookie('connect.sid', { path: '/', domain: 'localhost' });
 			res.status(200).redirect('/');
 		}
 	});

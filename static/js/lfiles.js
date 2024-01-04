@@ -34,6 +34,15 @@ async function fileList() {
 				cache: "no-cache"
 			});
 
+			if (response.status !== 200) {
+				alert('Contact with your Systems Administrator.');
+				let backLogin = document.createElement('a');
+				backLogin.setAttribute("href", "/login");
+				backLogin.click();
+				backLogin.remove();
+				return;
+			}
+
 			const fileBlob = await response.blob();
 
 			const bUrl = window.URL.createObjectURL(fileBlob);

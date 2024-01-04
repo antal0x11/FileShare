@@ -11,6 +11,7 @@ const fileSender = require('./routes/fileSender');
 const login = require('./routes/login');
 const logout = require('./routes/logout');
 const sequelize = require('./config/db');
+require('dotenv').config();
 
 sequelize.authenticate().then( async () => {
 	console.log('[+] Database Connection Successful.');
@@ -25,7 +26,7 @@ sequelize.authenticate().then( async () => {
 const app = express();
 
 app.use(session({
-	secret: 'supersecret',
+	secret: process.env.SECRET,
 	resave: false,
 	saveUninitialized: true,
 	cookie: { httpOnly: false }

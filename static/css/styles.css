@@ -27,10 +27,6 @@ ul {
 	font-size: 15px;
 }
 
-li {
-	float: left;
-}
-
 li a {
 	display: block;
 	color: white;
@@ -93,5 +89,33 @@ input[type="password"] {
 img {
 	width: 100%;
 	height: auto;
+}
+
+.upd-area {
+	display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+	height: 250px;
+	background-color: #F2F3F4;
+	border: 2px dashed #333;
+	border-radius: 20px;
+	text-align: center;
+	font-size: 15px;
+	margin-top: 10px;
+	position: absolute;
+	left: 35%;
+}
+
+.upd-block {
+	display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
 }
 
