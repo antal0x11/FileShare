@@ -40,17 +40,13 @@ li:hover {
 	cursor: pointer;
 }
 
-table {
+#table-info {
 	position: absolute;
 	top: 12%;
 	margin: 0px;
 	border-collapse: collapse;
 	width: 100%;
 	text-align: center;
-}
-
-thead {
-	font-s
 }
 
 th, td {
@@ -86,7 +82,7 @@ input[type="password"] {
 	padding: 5px 8px;
 }
 
-img {
+.home-img {
 	width: 100%;
 	height: auto;
 }
@@ -119,3 +115,73 @@ img {
     align-items: center;
 }
 
+.user-form {
+	display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: flex-start;
+
+    margin: 5px;
+}
+
+.user-cell {
+	display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+
+    margin: 5px;
+}
+
+.admin-panel {
+	display: flex;
+	text-align: center;
+	width: 300px;
+	background-color: #F2F3F4;
+	font-size: 15px;
+	margin-left: 170px;
+	flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: baseline;
+}
+
+.cell-form-box {
+	margin-left: 10px;
+}
+
+#firstname {
+	margin-left: 1px;
+}
+
+.dashboard-table {
+	text-align: center;
+	border: 1px solid #333;
+	margin-left: 40px;
+}
+
+.dashboard-table td, th{
+	border-bottom: 0px;
+}
+
+.alter-form {
+	display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: flex-start;
+    font-size: 15px;
+    margin: 10px;
+    background-color: #F2F3F4;
+}
+
+.alter {
+	font-size: 15px;
+    margin: 10px;
+    background-color: #F2F3F4;
+}

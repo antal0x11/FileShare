@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>File Share</title>
+		<link rel="stylesheet" href="../css/styles.css" />
+	</head>
+	<body>
+		<h3>File Share</h3>
+
+		<ul>
+			<li><a href="/">Home</a></li>
+			<li><a href="/list">List</a></li>
+			<li><a href="/upload">Upload</a></li>
+			<li><a href="/instructions">Instructions</a></li>
+			<li><a href="/logout">Logout</a></li>
+			<li><a href="/about">About</a></li>
+		</ul>
+		<h3>Admin Dashboard</h3>
+		<div class="admin-panel">
+			<div>
+				<h4>Create User</h4>
+				<form class="user-form">
+					<div class="user-cell">
+						<label for="firstname">Firstname:</label>
+						<input class="cell-form-box" type="text" id="firstname" name="firstname" placeholder="Firstname..." required />
+					</div>
+
+					<div class="user-cell">
+						<label for="lastname">Lastname:</label>
+						<input class="cell-form-box" type="text" id="lastname" name="lastname" placeholder="Lastname..." required />
+					</div>
+
+					<div class="user-cell">
+						<label for="username">Username:</label>
+						<input class="cell-form-box" type="text" id="username" name="username" placeholder="Username..." required />
+					</div>
+					
+					<div class="user-cell">
+						<label for="password">Password:</label>
+						<input class="cell-form-box" type="password" id="password" name="password" placeholder="Password..." required/>
+					</div>
+					
+					<div class="user-cell">
+						<label>Admin:</label>
+						<input type="checkbox" id="role" required/>
+					</div>
+
+					<div class="user-cell">
+						<input type="submit" value="Create" />
+					</div>
+				</form>
+			</div>
+			<div>
+				<table class="dashboard-table">
+					<thead>
+						<th>Firstname</th>
+						<th>Lastname</th>
+						<th>Username</th>
+						<th>Role</th>
+						<th>Active</th>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+			<div class="alter">
+				<h4>Alter User</h4>
+				<form class="alter-form">
+
+					<select>
+						<option value="-- Select user --" default>-- Select user --</option>
+					</select>
+
+					<div class="user-cell">
+						<label>Change Password:</label>
+						<input type="checkbox" id="change-password"/>
+					</div>
+
+					<div class="user-cell">
+						<label for="password-reset">Password:</label>
+						<input class="cell-form-box" type="password" id="password-reset" name="password" placeholder="Password..." required/>
+					</div>
+					
+					<div class="user-cell">
+						<label>Delete:</label>
+						<input type="checkbox" id="Delete"/>
+					</div>
+
+					<div class="user-cell">
+						<input type="submit" value="Create" />
+					</div>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>
