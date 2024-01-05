@@ -2,7 +2,7 @@ const User = require('../models/users');
 
 module.exports = {
 	isAuthenticated: async (req,res,next) => {
-		if (req.session) {
+		if (req.session && req.session.userId) {
 			try {
 				const dbLookUp = await User.findOne({ where : { id : req.session.userId }});
 				if (dbLookUp) {

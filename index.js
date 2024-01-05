@@ -10,6 +10,7 @@ const filesList = require('./routes/filesList');
 const fileSender = require('./routes/fileSender');
 const login = require('./routes/login');
 const logout = require('./routes/logout');
+const dashboard = require('./routes/admin/dashboard');
 const sequelize = require('./config/db');
 require('dotenv').config();
 
@@ -24,12 +25,16 @@ sequelize.authenticate().then( async () => {
 });
 
 const app = express();
+app.disable('x-powered-by');
 
 app.use(session({
 	secret: process.env.SECRET,
 	resave: false,
 	saveUninitialized: true,
-	cookie: { httpOnly: false }
+	cookie: { 
+		httpOnly: false,
+		maxAge: 2 * 60 * 60 * 1000 // valid for 2h
+	}
 }));
 
 app.use(express.static('static'));
@@ -43,6 +48,7 @@ app.use('/', filesList);
 app.use('/', fileSender);
 app.use('/', login);
 app.use('/', logout);
+app.use('/', dashboard);
 
 app.listen(process.env.PORT, () => {
 	console.log('[+] Server is up.');

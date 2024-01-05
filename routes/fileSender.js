@@ -8,7 +8,6 @@ const router = express.Router();
 function fileSender(req, res, next) {
 
 	const fileName = req.params.name;
-	//need to check that again with db if req.session.userId is valid
 	const directoryDestination = path.join(__dirname, '..', 'uploads', req.session.userId);
 
 	try {
