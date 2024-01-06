@@ -7,6 +7,8 @@ const File = require('../models/files');
 
 const router = express.Router();
 
+//TODO add multiple files upload
+
 const storage = multer.diskStorage({
 	destination: function(req, file, cb) {
 		//need to check again
@@ -33,17 +35,31 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 function uploadRoute(req, res, next) {
+	
 	const options = {
-		root: path.join(__dirname, '..', '/static/html'),
+		root: path.join(__dirname, '..', '/static/html/admin'),
 		dotfiles: 'deny'
 	};
 
-	res.status(200).sendFile('upload.html', options, (err) => {
-		if(err) {
-			console.error("[+] Failed to sent html.");
-			res.status(500).send("<h3>Server Error</h3>");
-		}
-	});
+	switch(req.session.role) {
+	case 'admin':
+		res.status(200).sendFile('upload.html', options, (err) => {
+			if(err) {
+				console.error("[+] Failed to sent html.");
+				res.status(500).send("<h3>Server Error</h3>");
+			}
+		});
+		break;
+	default:
+		options.root = path.join(__dirname, '..', '/static/html');
+		res.status(200).sendFile('upload.html', options, (err) => {
+			if(err) {
+				console.error("[+] Failed to sent html.");
+				res.status(500).send("<h3>Server Error</h3>");
+			}
+		});
+		break;
+	}
 }
 
 async function uploadFile(req, res, next) {

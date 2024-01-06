@@ -11,6 +11,9 @@ const fileSender = require('./routes/fileSender');
 const login = require('./routes/login');
 const logout = require('./routes/logout');
 const dashboard = require('./routes/admin/dashboard');
+const create_user = require('./routes/admin/createUser');
+const get_users = require('./routes/admin/getUsers');
+const alter_user = require('./routes/admin/alterUser');
 const sequelize = require('./config/db');
 require('dotenv').config();
 
@@ -49,6 +52,9 @@ app.use('/', fileSender);
 app.use('/', login);
 app.use('/', logout);
 app.use('/', dashboard);
+app.use('/', create_user);
+app.use('/', get_users);
+app.use('/', alter_user);
 
 app.listen(process.env.PORT, () => {
 	console.log('[+] Server is up.');

@@ -5,6 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>File Share</title>
 		<link rel="stylesheet" href="../css/styles.css" />
+		<script src="../js/members.js"></script>
 	</head>
 	<body>
 		<h3>File Share</h3>
@@ -13,15 +14,16 @@
 			<li><a href="/">Home</a></li>
 			<li><a href="/list">List</a></li>
 			<li><a href="/upload">Upload</a></li>
+			<li><a href="/admin/dashboard">Admin</a></li>
 			<li><a href="/instructions">Instructions</a></li>
-			<li><a href="/logout">Logout</a></li>
 			<li><a href="/about">About</a></li>
+			<li><a href="/logout">Logout</a></li>
 		</ul>
 		<h3>Admin Dashboard</h3>
 		<div class="admin-panel">
 			<div>
 				<h4>Create User</h4>
-				<form class="user-form">
+				<form class="user-form" action="/admin/create-user" enctype="application/x-www-form-urlencoded" method="post">
 					<div class="user-cell">
 						<label for="firstname">Firstname:</label>
 						<input class="cell-form-box" type="text" id="firstname" name="firstname" placeholder="Firstname..." required />
@@ -44,54 +46,49 @@
 					
 					<div class="user-cell">
 						<label>Admin:</label>
-						<input type="checkbox" id="role" required/>
+						<input type="checkbox" id="role" name="role" value="admin"/>
 					</div>
 
 					<div class="user-cell">
 						<input type="submit" value="Create" />
 					</div>
 				</form>
+
+				<h4>Alter User</h4>
+				<form class="alter-form">
+
+					<div class="user-cell">
+						<label for="username-reset">Username:</label>
+						<input class="cell-form-box" type="text" id="username-reset" name="usernameReset" placeholder="Username..." required/>
+					</div>
+
+					<div class="user-cell">
+						<label for="password-reset">Reset Password:</label>
+						<input class="cell-form-box" type="password" id="password-reset" name="password" placeholder="Reset Password..."/>
+					</div>
+					
+					<div class="user-cell">
+						<label>Delete User:</label>
+						<input type="checkbox" id="Delete"/>
+					</div>
+
+					<div class="user-cell">
+						<input type="submit" value="Apply" />
+					</div>
+				</form>
 			</div>
+	
 			<div>
-				<table class="dashboard-table">
+				<table class="dashboard-table" id="dashboard-table-users">
 					<thead>
 						<th>Firstname</th>
 						<th>Lastname</th>
 						<th>Username</th>
 						<th>Role</th>
-						<th>Active</th>
 					</thead>
 					<tbody>
 					</tbody>
 				</table>
-			</div>
-			<div class="alter">
-				<h4>Alter User</h4>
-				<form class="alter-form">
-
-					<select id="select-user-field">
-						<option value="-- Select user --" default>-- Select user --</option>
-					</select>
-
-					<div class="user-cell">
-						<label>Change Password:</label>
-						<input type="checkbox" id="change-password"/>
-					</div>
-
-					<div class="user-cell">
-						<label for="password-reset">Password:</label>
-						<input class="cell-form-box" type="password" id="password-reset" name="password" placeholder="Password..." required/>
-					</div>
-					
-					<div class="user-cell">
-						<label>Delete:</label>
-						<input type="checkbox" id="Delete"/>
-					</div>
-
-					<div class="user-cell">
-						<input type="submit" value="Create" />
-					</div>
-				</form>
 			</div>
 		</div>
 	</body>

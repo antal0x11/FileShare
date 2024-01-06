@@ -15,7 +15,7 @@ function loginUI(req, res, next) {
 	res.status(200).sendFile('login.html', options, (err) => {
 		if(err) {
 			console.error("[+] Failed to sent html.");
-			res.status(500).send("<h3>Sever Error</h3>");
+			res.status(500).send("<h3>Server Error</h3>");
 		}
 	});
 }
@@ -33,12 +33,17 @@ function loginServer(req, res, next) {
 			req.session.userId = response.id;
 			req.session.firstname = response.firstname;
 			req.session.lastname = response.lastname;
+			req.session.role = response.role;
 
 			req.session.save((err) => {
 				if (err) {
 					console.error('[+] Some Error.');
 				} else {
-					res.redirect('/list');
+					if (req.session.role === 'admin') {
+						res.status(200).redirect('/admin/dashboard');
+					} else {
+						res.status(200).redirect('/list');
+					}
 				}
 			})
 		} else {
