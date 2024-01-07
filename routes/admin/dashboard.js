@@ -6,7 +6,7 @@ const router = express.Router();
 
 function dashboard(req, res, next) {
 	const options = {
-		root: path.join(__dirname,'..', '..', '/static/html'),
+		root: path.join(__dirname,'..', '..', '/static/html', 'admin'),
 		dotfiles: 'deny'
 	};
 
