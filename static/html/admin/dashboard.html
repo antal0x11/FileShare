@@ -55,7 +55,7 @@
 				</form>
 
 				<h4>Alter User</h4>
-				<form class="alter-form">
+				<form class="alter-form" action="/admin/alter-user" enctype="application/x-www-form-urlencoded" method="post">
 
 					<div class="user-cell">
 						<label for="username-reset">Username:</label>
@@ -64,12 +64,12 @@
 
 					<div class="user-cell">
 						<label for="password-reset">Reset Password:</label>
-						<input class="cell-form-box" type="password" id="password-reset" name="password" placeholder="Reset Password..."/>
+						<input class="cell-form-box" type="password" id="password-reset" name="passwordReset" placeholder="Reset Password..."/>
 					</div>
 					
 					<div class="user-cell">
 						<label>Delete User:</label>
-						<input type="checkbox" id="Delete"/>
+						<input type="checkbox" id="Delete" name="status" value="remove"/>
 					</div>
 
 					<div class="user-cell">
