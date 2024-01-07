@@ -10,7 +10,9 @@ const router = express.Router();
 
 function validateOptions(req, res, next) {
 	if (req.body.usernameReset) {
-		if (req.body.passwordReset && !req.body.status) {
+		if (req.body.usernameReset === 'admin' && req.body.status) {
+			res.status(400).redirect('/admin/dashboard');
+		} else if (req.body.passwordReset && !req.body.status) {
 			next();
 		} else if (!req.body.passwordReset && req.body.status) {
 			next();

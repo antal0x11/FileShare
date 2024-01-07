@@ -12,6 +12,7 @@ const router = express.Router();
 const storage = multer.diskStorage({
 	destination: function(req, file, cb) {
 		try {
+			if (req.session.firstname === 'Admin') throw('Admin user cant upload.');
 			const directoryDestination = path.join(process.env.UPLOAD, `${req.session.userId}`);
 			if (fs.existsSync(directoryDestination)) {
 				cb(null, directoryDestination);
@@ -87,5 +88,5 @@ async function uploadFile(req, res, next) {
 }
 
 router.get("/upload", isAuthenticated, uploadRoute);
-router.post("/upload", isAuthenticated, upload.single("test_file"), uploadFile);
+router.post("/upload", isAuthenticated, upload.single("upd_file"), uploadFile);
 module.exports = router;
