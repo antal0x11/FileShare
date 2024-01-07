@@ -32,7 +32,7 @@ async function alterUser(req, res, next) {
 				const { id } = response;
 				await User.destroy( { where : { 'id' : id }});
 
-				const userDirectory = path.join(__dirname, '..', '..', 'uploads', id);
+				const userDirectory = path.join(process.env.UPLOAD, id);
 				fs.rm( userDirectory, { recursive: true, force: true }, (error) => {
 					if (error) throw error;
 				});

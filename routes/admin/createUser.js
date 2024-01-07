@@ -42,7 +42,7 @@ async function createUser(req, res, next) {
 				}
 			});
 			
-			const userDirectory = path.join(__dirname, '..', '..', 'uploads', id);
+			const userDirectory = path.join(process.env.UPLOAD, id);
 
 			fs.mkdirSync(userDirectory);
 
@@ -69,10 +69,10 @@ async function createUser(req, res, next) {
 				}
 			});
 			
-			const userDirectory = path.join(__dirname, '..', '..', 'uploads', id);
+			const userDirectory = path.join(process.env.UPLOAD, id);
 
 			fs.mkdirSync(userDirectory);
-			
+
 			res.status(200).redirect('/admin/dashboard');
 		} catch(error) {
 			res.status(500).redirect('/admin/dashboard');

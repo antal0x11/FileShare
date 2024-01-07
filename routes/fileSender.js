@@ -8,15 +8,13 @@ const router = express.Router();
 function fileSender(req, res, next) {
 
 	const fileName = req.params.name;
-	const directoryDestination = path.join(__dirname, '..', 'uploads', req.session.userId);
+	const directoryDestination = path.join(process.env.UPLOAD, req.session.userId);
 
 	try {
 		if (fs.existsSync(directoryDestination)) {
 			const options = {
 				maxAge: '1d',
 				root: directoryDestination,
-				//root: path.join(__dirname, '..', 'uploads'),
-				//root: '/uploads',
 				headers: {
 					'x-timestamp': Date.now(),
 					'x-sent': true

@@ -11,23 +11,18 @@ const router = express.Router();
 
 const storage = multer.diskStorage({
 	destination: function(req, file, cb) {
-		//need to check again
 		try {
-			const directoryDestination = path.join(__dirname, '..', 'uploads', `${req.session.userId}/`);
+			const directoryDestination = path.join(process.env.UPLOAD, `${req.session.userId}`);
 			if (fs.existsSync(directoryDestination)) {
 				cb(null, directoryDestination);
 			} else {
 				throw('Folder should exist.')
 			}
-			//cb(null, path.join(__dirname, '..','uploads/')) 
-			//cb(null, '/uploads'); 
 		} catch(error) {
 			console.error(error);
 		}
 	},
 	filename: function(req, file, cb) {
-		//const uniqueFileName = Date.now() + '-' + file.originalname;
-		//cb(null, uniqueFileName);
 		cb(null,file.originalname);
 	}
 })
@@ -65,7 +60,13 @@ function uploadRoute(req, res, next) {
 async function uploadFile(req, res, next) {
 	try {
 		//need to better handle files
-		const lookUpFile = await File.findOne({ where: { fileName: req.file.originalname}});
+		const lookUpFile = await File.findOne({ where: { 
+			fileName: req.file.originalname,
+			userID: req.session.userId
+		}});
+
+		//need to store the sha256 of the file, and check if has changed to check
+		//for any update that it has
 
 		if (lookUpFile) {
 			await File.update({ fileSize: req.file.size / ( 1024 * 1024) },{where: { userID: req.session.userId, fileName: req.file.originalname}});
