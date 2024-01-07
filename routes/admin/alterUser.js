@@ -1,5 +1,6 @@
 const express = require('express');
-const User = require('../../models/users.js');
+const User = require('../../models/users');
+const File = require('../../models/files');
 const { isAdminAuthenticated } = require('../authentication');
 const { createHash } = require('crypto');
 const fs = require('fs');
@@ -31,6 +32,7 @@ async function alterUser(req, res, next) {
 			try {
 				const { id } = response;
 				await User.destroy( { where : { 'id' : id }});
+				await File.destroy( { where : { userID : id }});
 
 				const userDirectory = path.join(process.env.UPLOAD, id);
 				fs.rm( userDirectory, { recursive: true, force: true }, (error) => {
