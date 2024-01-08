@@ -4,6 +4,7 @@ const fs = require('fs');
 const multer = require('multer');
 const { isAuthenticated } = require('./authentication');
 const File = require('../models/files');
+const Logger = require('../lib/logger');
 
 const router = express.Router();
 
@@ -12,15 +13,16 @@ const router = express.Router();
 const storage = multer.diskStorage({
 	destination: function(req, file, cb) {
 		try {
-			if (req.session.firstname === 'Admin') throw('Admin user cant upload.');
+			if (req.session.firstname === 'Admin') throw new Error('Admin user cant upload.');
 			const directoryDestination = path.join(process.env.UPLOAD, `${req.session.userId}`);
 			if (fs.existsSync(directoryDestination)) {
 				cb(null, directoryDestination);
 			} else {
-				throw('Folder should exist.')
+				throw new Error('Folder should exist.');
 			}
 		} catch(error) {
-			console.error(error);
+			Logger.info({ 'description': error.toString().split(': ')[1], 'path': '/upload', 'method': 'post' });
+			Logger.debug({ 'description': error.toString().split(': ')[1], 'path': '/upload', 'method': 'post' });
 		}
 	},
 	filename: function(req, file, cb) {

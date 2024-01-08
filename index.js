@@ -15,16 +15,17 @@ const create_user = require('./routes/admin/createUser');
 const get_users = require('./routes/admin/getUsers');
 const alter_user = require('./routes/admin/alterUser');
 const sequelize = require('./config/db');
+const Logger = require('./lib/logger');
 require('dotenv').config();
 
 sequelize.authenticate().then( async () => {
-	console.log('[+] Database Connection Successful.');
+	Logger.info({ 'description': 'Database Connection Successful', 'path': '/'});
 	await sequelize.sync();
-	console.log('[+] Relations sync completed');
+	Logger.info({'description': 'Relations Sync Completed', 'path' : '/'});
 
 }).catch( (error) => {
-	console.error('[+] Database Connection Failure.');
-	console.error(error);
+	Logger.error({'description': 'Database Connection Failure.', 'path' : '/'});
+	Logger.error({ 'description': error.toString(), 'path': '/'});
 });
 
 const app = express();
@@ -57,5 +58,6 @@ app.use('/', get_users);
 app.use('/', alter_user);
 
 app.listen(process.env.PORT, () => {
+	Logger.info({'description' : 'server started', 'path' : '/'});
 	console.log('[+] Server is up.');
 });
