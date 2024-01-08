@@ -1,5 +1,6 @@
 const express = require('express')
 const path = require('path');
+const Logger = require('../lib/logger');
 
 const router = express.Router();
 
@@ -14,8 +15,11 @@ function about(req,res,next) {
 	case 'admin':
 		res.status(200).sendFile('about.html', options, (err) => {
 			if(err) {
-				console.error("[+] Failed to sent html.");
-				res.status(500).send("<h3>Server Error</h3>");
+				Logger.error({
+					'description': 'Failed to send about.html(admin)',
+					'path': '/about'
+				});
+				res.status(500).redirect('/admin/dashboard');
 			}
 		});
 		break;
@@ -23,8 +27,11 @@ function about(req,res,next) {
 		options.root = path.join(__dirname, "..", "/static/html");
 		res.status(200).sendFile('about.html', options, (err) => {
 			if(err) {
-				console.error("[+] Failed to sent html.");
-				res.status(500).send("<h3>Server Error</h3>");
+				Logger.error({
+					'description': 'Failed to send about.html(public)',
+					'path': '/about'
+				});
+				res.status(500).redirect('/');
 			}
 		});
 		break;

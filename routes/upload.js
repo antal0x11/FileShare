@@ -21,8 +21,7 @@ const storage = multer.diskStorage({
 				throw new Error('Folder should exist.');
 			}
 		} catch(error) {
-			Logger.info({ 'description': error.toString().split(': ')[1], 'path': '/upload', 'method': 'post' });
-			Logger.debug({ 'description': error.toString().split(': ')[1], 'path': '/upload', 'method': 'post' });
+			Logger.info({ 'description': error.toString().split(': ')[1], 'path': '/upload', 'method': 'POST' });
 		}
 	},
 	filename: function(req, file, cb) {
@@ -43,8 +42,12 @@ function uploadRoute(req, res, next) {
 	case 'admin':
 		res.status(200).sendFile('upload.html', options, (err) => {
 			if(err) {
-				console.error("[+] Failed to sent html.");
-				res.status(500).send("<h3>Server Error</h3>");
+				Logger.error({
+					'description': 'Failed to send upload.html(admin)',
+					'path': '/upload',
+					'method': 'GET'
+				});
+				res.status(500).send('<img src="img/500.png" alt="500"/>');
 			}
 		});
 		break;
@@ -52,8 +55,12 @@ function uploadRoute(req, res, next) {
 		options.root = path.join(__dirname, '..', '/static/html');
 		res.status(200).sendFile('upload.html', options, (err) => {
 			if(err) {
-				console.error("[+] Failed to sent html.");
-				res.status(500).send("<h3>Server Error</h3>");
+				Logger.error({
+					'description': 'Failed to send upload.html(user)',
+					'path': '/upload',
+					'method': 'GET'
+				});
+				res.status(500).send('<img src="img/500.png" alt="500"/>');
 			}
 		});
 		break;
@@ -84,8 +91,12 @@ async function uploadFile(req, res, next) {
 		}
 		res.status(200).redirect('/list');
 	} catch(error) {
-		console.error(error);
-		res.status(500).redirect('/list');
+		Logger.error({
+			'description': 'Failed to upload file',
+			'path': '/upload',
+			'method': 'POST'
+		});
+		res.status(500).send('<img src="img/500.png" alt="500"/>');
 	}
 }
 

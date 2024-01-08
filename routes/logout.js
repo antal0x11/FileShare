@@ -1,11 +1,17 @@
 const express = require('express');
+const Logger = require('../lib/logger');
 
 const router = express.Router();
 
 function logout(req, res, next) {
 	req.session.destroy( (err) => {
 		if (err) {
-			res.status(500).send('<h3>Error logging out</h3>');
+			Logger.error({
+				'description': 'Failed to logout',
+				'path': '/logout',
+				'method': 'GET'
+			});
+			res.status(500).send('<img src="img/500.png" alt="500"/>');
 		} else {
 			res.status(200).redirect('/');
 		}
