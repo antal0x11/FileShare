@@ -3,7 +3,7 @@ FileShare is a minimal app that helps you share files.
 
 ![FileShare](./pic/fileshare.png)
 
-### Installation
+## Installation
 
 ### Requirements:
 
@@ -34,9 +34,9 @@ LOG_FILE=/var/logs/fileshare/app.log
 - docker build -f docker/Dockerfile -t filesharev1.0 .
 - docker run --name={containers_name} -d -p 8080:3000 filesharev1.0
 
-### Uninstall Fileshare
+### Uninstall FileShare
 
-To remove fileshare simply run:
+To remove FileShare simply run:
 - ./uninstall.sh
 - rm -rf FileShare
 
