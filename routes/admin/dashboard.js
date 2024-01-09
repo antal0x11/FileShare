@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const { isAdminAuthenticated } = require('../authentication');
+const Logger = require('../../lib/logger');
 
 const router = express.Router();
 
@@ -12,8 +13,11 @@ function dashboard(req, res, next) {
 
 	res.status(200).sendFile('dashboard.html', options, (err) => {
 		if(err) {
-			console.error("[+] Failed to sent html.");
-			res.status(500).send("<h3>Server Error</h3>");
+			Logger.error({
+			'description': 'Failed to send dashboard.html page',
+			'path': '/admin/dashboard'
+		});
+		res.status(500).send('<img src="../img/500.png" alt="500"/>');
 		}
 	});
 }

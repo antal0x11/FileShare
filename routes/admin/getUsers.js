@@ -1,6 +1,7 @@
 const express = require('express');
 const User = require('../../models/users.js');
 const { isAdminAuthenticated } = require('../authentication');
+const Logger = require('../../lib/logger');
 
 const router = express.Router();
 
@@ -15,8 +16,11 @@ async function getUsers(req, res, next) {
 				'role': user.role, 
 			}))}); 
 	} catch(error) {
-		consoel.error(error);
-		res.status(500).json( { status : 'failed'})
+		Logger.error({
+			'description': 'Failed to fetch users',
+			'path': '/admin/get_users'
+		});
+		res.status(500).send('<img src="img/500.png" alt="500"/>');
 	}
 }
 

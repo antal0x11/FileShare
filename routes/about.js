@@ -19,7 +19,7 @@ function about(req,res,next) {
 					'description': 'Failed to send about.html(admin)',
 					'path': '/about'
 				});
-				res.status(500).redirect('/admin/dashboard');
+				res.status(500).send('<img src="img/500.png" alt="500"/>');;
 			}
 		});
 		break;
@@ -31,7 +31,7 @@ function about(req,res,next) {
 					'description': 'Failed to send about.html(public)',
 					'path': '/about'
 				});
-				res.status(500).redirect('/');
+				res.status(500).send('<img src="img/500.png" alt="500"/>');;
 			}
 		});
 		break;

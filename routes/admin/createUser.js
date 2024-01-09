@@ -4,6 +4,7 @@ const { isAdminAuthenticated } = require('../authentication');
 const { createHash } = require('crypto');
 const fs = require('fs');
 const path = require('path');
+const Logger = require('../../lib/logger');
 
 const router = express.Router();
 
@@ -48,7 +49,11 @@ async function createUser(req, res, next) {
 
 			res.status(200).redirect('/admin/dashboard');
 		} catch(error) {
-			res.status(500).redirect('/admin/dashboard');
+			Logger.error({
+				'description': 'Failed to create admin user',
+				'path': '/admin/create-user'
+			});
+			res.status(500).send('<img src="../img/500.png" alt="500"/>');
 		}
 		break;
 	default:
@@ -75,7 +80,11 @@ async function createUser(req, res, next) {
 
 			res.status(200).redirect('/admin/dashboard');
 		} catch(error) {
-			res.status(500).redirect('/admin/dashboard');
+			Logger.error({
+				'description': 'Failed to create user',
+				'path': '/admin/create-user'
+			});
+			res.status(500).send('<img src="../img/500.png" alt="500"/>');
 		}
 		break;
 	}	

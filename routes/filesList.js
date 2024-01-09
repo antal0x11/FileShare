@@ -1,6 +1,7 @@
 const express = require('express');
 const { isAuthenticated } = require('./authentication');
 const File = require('../models/files');
+const Logger = require('../lib/logger');
 
 const router = express.Router();
 
@@ -32,7 +33,11 @@ async function filesList(req, res, next) {
 
 		res.status(200).json({files : resArray});
 	} catch(error) {
-		console.error(error);
+		Logger.error({
+			'description': error.toString(),
+			'path': '/files/list',
+			'method': 'GET'
+		});
 		res.status(500).json({file : resArray});
 	}
 }

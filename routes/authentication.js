@@ -1,4 +1,5 @@
 const User = require('../models/users');
+const Logger = require('../lib/logger');
 
 module.exports = {
 	isAuthenticated: async (req, res, next) => {
@@ -7,9 +8,14 @@ module.exports = {
 				const dbLookUp = await User.findOne({ where : { id : req.session.userId }});
 				if (dbLookUp) {
 					next();
+				} else {
+					res.status(403).redirect('/');
 				}
 			} catch(error) {
-				console.error(error);
+				Logger.error({
+					'description': error.toString(),
+					'path': 'fn isAuthenticated'
+				});
 				res.status(403).redirect('/login');
 			}
 		} else {
@@ -26,7 +32,10 @@ module.exports = {
 					res.status(403).redirect('/');
 				}
 			} catch(error) {
-				console.error(error);
+				Logger.error({
+					'description': error.toString(),
+					'path': 'fn isAuthenticated'
+				});
 				res.status(403).redirect('/login');
 			}
 		} else {

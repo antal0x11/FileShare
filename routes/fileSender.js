@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { isAuthenticated } = require('./authentication');
+const Logger = require('../lib/logger');
 
 const router = express.Router();
 
@@ -27,24 +28,38 @@ function fileSender(req, res, next) {
 
 			res.status(200).download(fileName,options, (err) => {
 				if (err) {
-					console.error('[+] File Sent Error.');
-					console.error(err);
-					res.status(500).send("File Sent Error");
+					Logger.error({
+						'description': 'File Sent Error',
+						'path': '/files/:name',
+						'method': 'GET'
+					});
 				} else {
-					console.log('[+] File Sent.');
+					Logger.info({
+						'description': 'File Sent',
+						'path': '/files/:name',
+						'method': 'GET'
+					});	
 				}
 			});
 		} else {
 			req.session.destroy((error) => {
 				if (error) {
-					console.error(error);
+					Logger.error({
+						'description': error.toString(),
+						'path': '/files/:name',
+						'method': 'GET'
+					});
 				}
 			});
-			res.status(403).json({ 'action': 'forbidden'});
+			res.status(403).send('<img src="img/403.png" alt="403"/>');
 		}
 	} catch(error) {
-		console.error(error);
-		res.status(500).json({ 'error' : 'internal error '});
+		Logger.error({
+			'description': error.toString(),
+			'path': '/files/:name',
+			'method': 'GET'
+		});
+		res.status(500).send('<img src="img/500.png" alt="500"/>');
 	}
 }
 
