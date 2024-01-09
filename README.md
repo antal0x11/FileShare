@@ -27,7 +27,7 @@ LOG_FILE=/var/logs/fileshare/app.log
 #### Without Docker
 
 - ./install.sh
-- ./npm start
+- npm start
 
 #### With Docker:
 
@@ -37,7 +37,7 @@ LOG_FILE=/var/logs/fileshare/app.log
 ### Uninstall Fileshare
 
 To remove fileshare simply run:
-> ./uninstall.sh
+- ./uninstall.sh
 
 ### About FileShare
 
