@@ -8,7 +8,7 @@ FileShare is a minimal app that helps you share files.
 ### Requirements:
 
 - A PostgreSQL Database with the name fileshare and a user with the ability to perform CRUD operations on it.
-- .env file with the properties below
+- .env file with the properties listed below.
 ```
 PORT={port_to_expose}
 DB_USER={postgres_username}
@@ -38,6 +38,7 @@ LOG_FILE=/var/logs/fileshare/app.log
 
 To remove fileshare simply run:
 - ./uninstall.sh
+- rm -rf FileShare
 
 ### About FileShare
 
