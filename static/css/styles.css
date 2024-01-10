@@ -185,3 +185,7 @@ input[type="password"] {
     margin: 10px;
     background-color: #F2F3F4;
 }
+
+.delete-cell {
+	cursor: pointer;
+}
