@@ -20,6 +20,7 @@ async function fileList() {
 		let cellSize = row.insertCell(4);
 
 		cellName.innerHTML = item.name;
+		cellName.setAttribute('belongs', item.author);
 		cellAuthor.innerHTML = item.author;
 		cellDate.innerHTML = item.date;
 		cellLastUpdate.innerHTML = item.lastUpdate;
@@ -27,11 +28,16 @@ async function fileList() {
 		
 		cellName.addEventListener('click', async (event) => {
 			const fileRequest = event.target.innerText;
+			const [firstname,lastname] = event.target.getAttribute('belongs').split(' ');
 
 			const response = await fetch(`/file/${fileRequest}`, {
-				method: "GET",
+				method: "POST",
 				mode: "same-origin",
-				cache: "no-cache"
+				cache: "no-cache",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({ 'firstname': firstname, 'lastname': lastname })
 			});
 
 			if (response.status !== 200) {

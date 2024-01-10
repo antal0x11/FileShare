@@ -3,15 +3,28 @@ const path = require('path');
 const fs = require('fs');
 const { isAuthenticated } = require('./authentication');
 const Logger = require('../lib/logger');
+const File = require('../models/files');
 
 const router = express.Router();
 
-function fileSender(req, res, next) {
+async function fileSender(req, res, next) {
 
 	const fileName = req.params.name;
-	const directoryDestination = path.join(process.env.UPLOAD, req.session.userId);
+	const { firstname, lastname } = req.body;
 
 	try {
+
+		const searchFile = await File.findOne({
+			where : {
+				'fileName' : fileName,
+				'firstName': firstname,
+				'lastName' : lastname
+			}
+		})
+
+		if (!searchFile) throw new Error('File Not Found Error');
+		const directoryDestination = path.join(process.env.UPLOAD, searchFile.userID);
+
 		if (fs.existsSync(directoryDestination)) {
 			const options = {
 				maxAge: '1d',
@@ -42,6 +55,11 @@ function fileSender(req, res, next) {
 				}
 			});
 		} else {
+			Logger.error({
+				'description': 'Directory Not Found',
+				'path': '/files/:name',
+				'method': 'GET'
+			});
 			req.session.destroy((error) => {
 				if (error) {
 					Logger.error({
@@ -63,5 +81,5 @@ function fileSender(req, res, next) {
 	}
 }
 
-router.get('/file/:name', isAuthenticated, fileSender);
+router.post('/file/:name', isAuthenticated, express.json(),fileSender);
 module.exports = router;

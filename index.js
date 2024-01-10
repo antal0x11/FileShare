@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const { isAuthenticated } = require('./routes/authentication');
+const { createHash } = require('crypto');
 const home = require('./routes/home');
 const list = require('./routes/list');
 const instructions = require('./routes/instructions');
@@ -16,6 +17,7 @@ const get_users = require('./routes/admin/getUsers');
 const alter_user = require('./routes/admin/alterUser');
 const sequelize = require('./config/db');
 const Logger = require('./lib/logger');
+const User = require('./models/users');
 require('dotenv').config();
 
 sequelize.authenticate().then( async () => {
@@ -23,8 +25,20 @@ sequelize.authenticate().then( async () => {
 	await sequelize.sync();
 	Logger.info({'description': 'Relations Sync Completed', 'path' : '/'});
 
+	const admin = await User.findOne( { where : { username : 'admin'}});
+	if (!admin) {
+		await User.create({ 
+			'firstName': 'Admin',
+			'lastName': 'Admin',
+			'username': 'admin',
+			'password': createHash('sha256').update('1111').digest('hex'),
+			'role': 'admin'
+		});
+		Logger.info({ 'description' : 'Master Admin User Created', 'path' : '/' });
+	}
+
 }).catch( (error) => {
-	Logger.error({'description': 'Database Connection Failure.', 'path' : '/'});
+	Logger.error({ 'description': 'Database Connection Failure.', 'path' : '/'});
 	Logger.error({ 'description': error.toString(), 'path': '/'});
 });
 
