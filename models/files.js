@@ -29,6 +29,10 @@ const File = sequelize.define('File', {
 		defaultValue: DataTypes.NOW,
 		allowNull: false
 	},
+	checksum: {
+		type: DataTypes.STRING,
+		allowNull: false
+	},
 	fileSize: {
 		type: DataTypes.DOUBLE
 	}

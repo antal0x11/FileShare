@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const { createHash } = require('crypto');
 const multer = require('multer');
 const { isAuthenticated } = require('./authentication');
 const File = require('../models/files');
@@ -70,6 +71,10 @@ function uploadRoute(req, res, next) {
 async function uploadFile(req, res, next) {
 	try {
 		//need to better handle files
+
+		const buffer = fs.readFileSync(req.file.path);
+		const fileHash = createHash('sha256').update(buffer).digest('hex');
+
 		const lookUpFile = await File.findOne({ where: { 
 			fileName: req.file.originalname,
 			userID: req.session.userId
@@ -77,22 +82,29 @@ async function uploadFile(req, res, next) {
 
 		//need to store the sha256 of the file, and check if has changed to check
 		//for any update that it has
+		//add tmp storage
 
 		if (lookUpFile) {
-			await File.update({ fileSize: req.file.size / ( 1024 * 1024) },{where: { userID: req.session.userId, fileName: req.file.originalname}});
+			await File.update({ fileSize: req.file.size / ( 1024 * 1024) },{
+				where: {
+					userID: req.session.userId, 
+					fileName: req.file.originalname
+				}
+			});
 		} else {
 			await File.create({
 				'userID' : req.session.userId,
 				'fileName' : req.file.originalname,
 				'firstName' : req.session.firstname,
 				'lastName': req.session.lastname,
+				'checksum': fileHash,
 				'fileSize' : req.file.size / ( 1024 * 1024)
 			});
 		}
 		res.status(200).redirect('/list');
 	} catch(error) {
 		Logger.error({
-			'description': 'Failed to upload file',
+			'description': error.toString(),
 			'path': '/upload',
 			'method': 'POST'
 		});

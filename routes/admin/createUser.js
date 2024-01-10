@@ -49,6 +49,9 @@ async function createUser(req, res, next) {
 
 			res.status(200).redirect('/admin/dashboard');
 		} catch(error) {
+
+			//TODO handle duplicate usernames
+
 			Logger.error({
 				'description': 'Failed to create admin user',
 				'path': '/admin/create-user'
