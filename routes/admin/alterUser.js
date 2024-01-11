@@ -38,7 +38,13 @@ async function alterUser(req, res) {
 				await File.destroy( { where : { userID : id }});
 
 				const userDirectory = path.join(process.env.UPLOAD, id);
+				const tmpUserDirectory = path.join(process.env.TMP, id);
+				
 				fs.rm( userDirectory, { recursive: true, force: true }, (error) => {
+					if (error) throw error;
+				});
+
+				fs.rm( tmpUserDirectory, { recursive: true, force: true }, (error) => {
 					if (error) throw error;
 				});
 

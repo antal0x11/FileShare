@@ -4,5 +4,6 @@ uploads/
 logs/
 pic/
 docker/
+tmp/
 .gitignore
 README.md

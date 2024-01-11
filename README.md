@@ -18,6 +18,7 @@ DB_HOST={postgres_ip}
 DB_PORT={postgres_port}
 SECRET={mysupersecret}
 UPLOAD=/uploads
+TMP=/tmp/fileshare
 LOG_FILE=/var/logs/fileshare/app.log
 ```
 - NodeJS (v20.8.0)

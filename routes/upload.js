@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 	destination: function(req, file, cb) {
 		try {
 			if (req.session.firstname === 'Admin') throw new Error('Admin user cant upload.');
-			const directoryDestination = path.join(process.env.UPLOAD, `${req.session.userId}`);
+			const directoryDestination = path.join(process.env.TMP, `${req.session.userId}`);
 			if (fs.existsSync(directoryDestination)) {
 				cb(null, directoryDestination);
 			} else {
@@ -70,7 +70,6 @@ function uploadRoute(req, res) {
 
 async function uploadFile(req, res) {
 	try {
-		//need to better handle files
 
 		const buffer = fs.readFileSync(req.file.path);
 		const fileHash = createHash('sha256').update(buffer).digest('hex');
@@ -80,17 +79,30 @@ async function uploadFile(req, res) {
 			userID: req.session.userId
 		}});
 
-		//need to store the sha256 of the file, and check if has changed to check
-		//for any update that it has
-		//add tmp storage
+		const source = path.join(process.env.TMP, req.session.userId, req.file.originalname);
+		const destination = path.join(process.env.UPLOAD, req.session.userId, req.file.originalname);
 
 		if (lookUpFile) {
-			await File.update({ fileSize: req.file.size / ( 1024 * 1024) },{
-				where: {
-					userID: req.session.userId, 
-					fileName: req.file.originalname
-				}
-			});
+			if (lookUpFile.checksum === fileHash) {
+				fs.unlink( source, (error) => {
+					if (error) throw error;
+				});
+			} else {
+				await File.update(
+					{
+						checksum: fileHash, 
+						fileSize: req.file.size / ( 1024 * 1024) 
+					},{
+						where: {
+							userID: req.session.userId, 
+							fileName: req.file.originalname
+						}
+					});
+
+				fs.rename(source, destination, (err) => {
+					if (err) throw err;
+				});
+			}
 		} else {
 			await File.create({
 				'userID' : req.session.userId,
@@ -99,6 +111,10 @@ async function uploadFile(req, res) {
 				'lastName': req.session.lastname,
 				'checksum': fileHash,
 				'fileSize' : req.file.size / ( 1024 * 1024)
+			});
+
+			fs.rename(source, destination, (err) => {
+				if (err) throw err;
 			});
 		}
 		res.status(200).redirect('/list');

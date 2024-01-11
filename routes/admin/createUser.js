@@ -44,8 +44,10 @@ async function createUser(req, res) {
 			});
 			
 			const userDirectory = path.join(process.env.UPLOAD, id);
+			const tmpUserDirectory = path.join(process.env.TMP, id);
 
 			fs.mkdirSync(userDirectory);
+			fs.mkdirSync(tmpUserDirectory);
 
 			res.status(200).redirect('/admin/dashboard');
 		} catch(error) {
@@ -78,8 +80,10 @@ async function createUser(req, res) {
 			});
 			
 			const userDirectory = path.join(process.env.UPLOAD, id);
+			const tmpUserDirectory = path.join(process.env.TMP, id);
 
 			fs.mkdirSync(userDirectory);
+			fs.mkdirSync(tmpUserDirectory);
 
 			res.status(200).redirect('/admin/dashboard');
 		} catch(error) {
