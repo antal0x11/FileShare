@@ -1,9 +1,8 @@
 node_modules/
 npm-debug.log
-uploads/
-logs/
-pic/
+../uploads/
+../pic/
 docker/
-tmp/
 .gitignore
 README.md
+.eslintrc.yaml

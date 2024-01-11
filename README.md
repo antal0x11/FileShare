@@ -8,7 +8,7 @@ FileShare is a minimal app that helps you share files.
 ### Requirements:
 
 - A PostgreSQL Database with the name fileshare and a user with the ability to perform CRUD operations on it.
-- .env file with the properties listed below.
+- .env file with the properties listed below or EXPORT ENV variables.
 ```
 PORT={port_to_expose}
 DB_USER={postgres_username}
