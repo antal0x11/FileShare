@@ -28,7 +28,7 @@ LOG_FILE=/var/logs/fileshare/app.log
 #### Without Docker
 
 - Create the directories for the UPLOAD, TMP, LOG_FILE and set their paths.
-- Create .env file inside Fileshare directory.
+- Create .env file inside FileShare directory.
 - npm install
 - npm start
 
