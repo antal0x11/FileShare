@@ -81,11 +81,27 @@ async function fileList() {
 		});
 
 		cellDelete.addEventListener('click', async (event) => {
-			alert("Under Construction File To Delete Operation");
-			//TODO
-		})
+			const filename = cellDelete.getAttribute('filename');
+			const [firstname,lastname] = cellDelete.getAttribute('belongs').split(' ');
 
+			const response = await fetch('/remove', {
+				method: "POST",
+				mode: "same-origin",
+				cache: "no-cache",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({ 'firstname': firstname, 'lastname': lastname, 'filename': filename })
+			});
 
+			switch(response.status) {
+			case 200:
+				location.reload(true);
+				break;
+			default:
+				alert('You cant remove other users files. If the isssue persists, contact with your System Administrator.');
+			}
+		});
 	});
 }
 
