@@ -27,18 +27,22 @@ LOG_FILE=/var/logs/fileshare/app.log
 
 #### Without Docker
 
-- ./install.sh
+- Create the directories for the UPLOAD, TMP, LOG_FILE and set their paths.
+- Create .env file inside Fileshare directory.
+- npm install
 - npm start
 
 #### With Docker:
 
+- Update the ENV properties in Dockerfile.
 - docker build -f docker/Dockerfile -t filesharev1.0 .
 - docker run --name={containers_name} -d -p 8080:3000 filesharev1.0
 
 ### Uninstall FileShare
 
 To remove FileShare simply run:
-- ./uninstall.sh
+
+- Remove all directories that you have set in .env file or exposed.
 - rm -rf FileShare
 
 ### About FileShare
