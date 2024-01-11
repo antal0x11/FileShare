@@ -9,7 +9,7 @@ function info(req, res) {
 	res.status(200).json({
 		'firstname': firstname,
 		'lastname': lastname
-	})
+	});
 }
 
 router.get('/info', isAuthenticated, info);

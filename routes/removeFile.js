@@ -56,7 +56,7 @@ async function removeFile(req, res) {
 
 		res.status(200).json({
 			'status': 'ok'
-		})
+		});
 
 	} catch(error) {
 		Logger.error({
