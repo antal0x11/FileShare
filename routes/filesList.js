@@ -5,7 +5,7 @@ const Logger = require('../lib/logger');
 
 const router = express.Router();
 
-async function filesList(req, res, next) {
+async function filesList(req, res) {
 
 	const resArray = new Array();
 
@@ -28,8 +28,8 @@ async function filesList(req, res, next) {
 				'date' : dt.toString().split(' G')[0],
 				'lastUpdate' : sdt.toString().split( 'G')[0],
 				'size' : item.fileSize.toFixed(3) + ' MB'
-			})
-		})
+			});
+		});
 
 		res.status(200).json({files : resArray});
 	} catch(error) {

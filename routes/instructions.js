@@ -4,9 +4,9 @@ const Logger = require('../lib/logger');
 
 const router = express.Router();
 
-function instructions(req,res,next) {
+function instructions(req, res) {
 	const options = {
-		root: path.join(__dirname, "..", "/static/html/admin"),
+		root: path.join(__dirname, '..', '/static/html/admin'),
 		dotfiles: 'deny'
 	};
 
@@ -24,7 +24,7 @@ function instructions(req,res,next) {
 		});
 		break;
 	default:
-		options.root = path.join(__dirname, "..", "/static/html");
+		options.root = path.join(__dirname, '..', '/static/html');
 		res.status(200).sendFile('instructions.html', options, (err) => {
 			if(err) {
 				Logger.error({
@@ -39,5 +39,5 @@ function instructions(req,res,next) {
 	}
 }
 
-router.get("/instructions", instructions);
+router.get('/instructions', instructions);
 module.exports = router;

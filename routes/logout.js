@@ -3,7 +3,7 @@ const Logger = require('../lib/logger');
 
 const router = express.Router();
 
-function logout(req, res, next) {
+function logout(req, res) {
 	req.session.destroy( (err) => {
 		if (err) {
 			Logger.error({

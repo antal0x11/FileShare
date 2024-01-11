@@ -25,7 +25,7 @@ function validateOptions(req, res, next) {
 	}
 }
 
-async function alterUser(req, res, next) { 
+async function alterUser(req, res) { 
 
 	const response = await User.findOne( { where : { 'username' : req.body.usernameReset }});
 

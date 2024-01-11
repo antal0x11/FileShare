@@ -7,7 +7,7 @@ const File = require('../models/files');
 
 const router = express.Router();
 
-async function fileSender(req, res, next) {
+async function fileSender(req, res) {
 
 	const fileName = req.params.name;
 	const { firstname, lastname } = req.body;
@@ -20,7 +20,7 @@ async function fileSender(req, res, next) {
 				'firstName': firstname,
 				'lastName' : lastname
 			}
-		})
+		});
 
 		if (!searchFile) throw new Error('File Not Found Error');
 		const directoryDestination = path.join(process.env.UPLOAD, searchFile.userID);

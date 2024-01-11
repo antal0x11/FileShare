@@ -5,10 +5,10 @@ const Logger = require('../lib/logger');
 
 const router = express.Router();
 
-function list(req,res,next) {
+function list(req, res) {
 
 	const options = {
-		root: path.join(__dirname, "..", "/static/html/admin"),
+		root: path.join(__dirname, '..', '/static/html/admin'),
 		dotfiles: 'deny'
 	};
 
@@ -26,7 +26,7 @@ function list(req,res,next) {
 		});
 		break;
 	default:
-		options.root = path.join(__dirname, "..", "/static/html");
+		options.root = path.join(__dirname, '..', '/static/html');
 		res.status(200).sendFile('list.html', options, (err) => {
 			if(err) {
 				Logger.error({
@@ -41,5 +41,5 @@ function list(req,res,next) {
 	}
 }
 
-router.get("/list", isAuthenticated, list);
+router.get('/list', isAuthenticated, list);
 module.exports = router;

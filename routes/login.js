@@ -6,7 +6,7 @@ const Logger = require('../lib/logger');
 
 const router = express.Router();
 
-function loginUI(req, res, next) {
+function loginUI(req, res) {
 
 	const options = {
 		root: path.join(__dirname, '..', '/static/html'),
@@ -25,7 +25,7 @@ function loginUI(req, res, next) {
 	});
 }
 
-function loginServer(req, res, next) {
+function loginServer(req, res) {
 
 	req.session.regenerate( async (err) => {
 		if (err) {
@@ -61,7 +61,7 @@ function loginServer(req, res, next) {
 						res.status(200).redirect('/list');
 					}
 				}
-			})
+			});
 		} else {
 			res.status(403).redirect('/login');
 		}
@@ -72,9 +72,9 @@ async function getUser(username,password) {
 
 	try {
 		const userExists = await User.findOne({ where: {
-				username : username,
-				password: createHash('sha256').update(password).digest('hex')
-			}
+			username : username,
+			password: createHash('sha256').update(password).digest('hex')
+		}
 		});
 
 		if (userExists === null) {

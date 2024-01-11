@@ -22,7 +22,7 @@ function validateUser(req, res, next) {
 	}
 }
 
-async function createUser(req, res, next) {
+async function createUser(req, res) {
 
 	switch(req.body.role) {
 	case 'admin':
@@ -94,5 +94,5 @@ async function createUser(req, res, next) {
 	
 }
 
-router.post('/admin/create-user', isAdminAuthenticated, express.urlencoded( { extended: false }), createUser);
+router.post('/admin/create-user', isAdminAuthenticated, express.urlencoded( { extended: false }), validateUser, createUser);
 module.exports = router;

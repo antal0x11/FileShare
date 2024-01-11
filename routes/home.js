@@ -4,16 +4,16 @@ const Logger = require('../lib/logger');
 
 const router = express.Router();
 
-function home(req,res,next) {
+function home(req, res) {
 
 	const options = {
-		root: path.join(__dirname,"..","/static/html"),
+		root: path.join(__dirname,'..','/static/html'),
 		dotfiles: 'deny'
 	};
 
 	switch(req.session.role) {
 	case 'admin':
-		options.root = path.join(__dirname,"..","/static/html/admin");
+		options.root = path.join(__dirname,'..','/static/html/admin');
 		res.status(200).sendFile('index.html', options, (err) => {
 			if(err) {
 				Logger.error({
@@ -26,7 +26,7 @@ function home(req,res,next) {
 		});
 		break;
 	case 'user':
-		options.root = path.join(__dirname,"..","/static/html/user");
+		options.root = path.join(__dirname,'..','/static/html/user');
 		res.status(200).sendFile('index.html', options, (err) => {
 			if(err) {
 				Logger.error({
@@ -53,5 +53,5 @@ function home(req,res,next) {
 	}
 }
 
-router.get("/", home);
+router.get('/', home);
 module.exports = router;

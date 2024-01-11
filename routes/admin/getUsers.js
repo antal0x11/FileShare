@@ -5,16 +5,16 @@ const Logger = require('../../lib/logger');
 
 const router = express.Router();
 
-async function getUsers(req, res, next) {
+async function getUsers(req, res) {
 	try {
 		const usersFound = await User.findAll( { attributes: ['firstName', 'lastName', 'username', 'role']});
 		
 		res.status(200).json({ users: usersFound.map( (user) => ({
-				'firstname': user.firstName,
-				'lastname': user.lastName,
-				'username': user.username,
-				'role': user.role, 
-			}))}); 
+			'firstname': user.firstName,
+			'lastname': user.lastName,
+			'username': user.username,
+			'role': user.role, 
+		}))}); 
 	} catch(error) {
 		Logger.error({
 			'description': 'Failed to fetch users',

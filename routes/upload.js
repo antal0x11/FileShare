@@ -28,11 +28,11 @@ const storage = multer.diskStorage({
 	filename: function(req, file, cb) {
 		cb(null,file.originalname);
 	}
-})
+});
 
 const upload = multer({ storage: storage });
 
-function uploadRoute(req, res, next) {
+function uploadRoute(req, res) {
 	
 	const options = {
 		root: path.join(__dirname, '..', '/static/html/admin'),
@@ -68,7 +68,7 @@ function uploadRoute(req, res, next) {
 	}
 }
 
-async function uploadFile(req, res, next) {
+async function uploadFile(req, res) {
 	try {
 		//need to better handle files
 
@@ -112,6 +112,6 @@ async function uploadFile(req, res, next) {
 	}
 }
 
-router.get("/upload", isAuthenticated, uploadRoute);
-router.post("/upload", isAuthenticated, upload.single("upd_file"), uploadFile);
+router.get('/upload', isAuthenticated, uploadRoute);
+router.post('/upload', isAuthenticated, upload.single('upd_file'), uploadFile);
 module.exports = router;

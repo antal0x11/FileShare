@@ -1,13 +1,13 @@
-const express = require('express')
+const express = require('express');
 const path = require('path');
 const Logger = require('../lib/logger');
 
 const router = express.Router();
 
-function about(req,res,next) {
+function about(req, res) {
 
 	const options = {
-		root: path.join(__dirname, "..", "/static/html/admin"),
+		root: path.join(__dirname, '..', '/static/html/admin'),
 		dotfiles: 'deny'
 	};
 
@@ -24,7 +24,7 @@ function about(req,res,next) {
 		});
 		break;
 	default:
-		options.root = path.join(__dirname, "..", "/static/html");
+		options.root = path.join(__dirname, '..', '/static/html');
 		res.status(200).sendFile('about.html', options, (err) => {
 			if(err) {
 				Logger.error({
@@ -38,5 +38,5 @@ function about(req,res,next) {
 	}
 }
 
-router.get("/about", about);
+router.get('/about', about);
 module.exports = router;
