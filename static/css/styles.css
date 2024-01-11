@@ -189,3 +189,7 @@ input[type="password"] {
 .delete-cell {
 	cursor: pointer;
 }
+
+#info-user {
+	color : white;
+}

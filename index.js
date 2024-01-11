@@ -15,6 +15,7 @@ const dashboard = require('./routes/admin/dashboard');
 const create_user = require('./routes/admin/createUser');
 const get_users = require('./routes/admin/getUsers');
 const alter_user = require('./routes/admin/alterUser');
+const info = require('./routes/info');
 const sequelize = require('./config/db');
 const Logger = require('./lib/logger');
 const User = require('./models/users');
@@ -70,6 +71,7 @@ app.use('/', dashboard);
 app.use('/', create_user);
 app.use('/', get_users);
 app.use('/', alter_user);
+app.use('/', info);
 
 app.listen(process.env.PORT, () => {
 	Logger.info({'description' : 'server started', 'path' : '/'});
