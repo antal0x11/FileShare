@@ -46,6 +46,7 @@ sequelize.authenticate().then( async () => {
 
 const app = express();
 app.disable('x-powered-by');
+app.set('trust proxy', 'loopback');
 
 app.use(session({
 	secret: process.env.SECRET,
