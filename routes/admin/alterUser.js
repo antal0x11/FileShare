@@ -33,6 +33,10 @@ async function alterUser(req, res) {
 		switch(req.body.status) {
 		case 'remove':
 			try {
+
+				if (response.id === req.session.userId) {
+					throw new Error('Unable to remove same id user');
+				}
 				const { id } = response;
 				await User.destroy( { where : { 'id' : id }});
 				await File.destroy( { where : { userID : id }});
@@ -50,11 +54,23 @@ async function alterUser(req, res) {
 
 				res.status(200).redirect('/admin/dashboard');
 			} catch(error) {
-				Logger.error({
-					'description': 'Failed to remove user',
-					'path': '/admin/alter-user'
-				});
-				res.status(500).send('<img src="../img/500.png" alt="500"/>');
+
+				switch(error.toString()){
+				case 'Error: Unable to remove same id user':
+					Logger.warning({
+						'description': 'Trying to remove same session user',
+						'path': '/admin/alter-user'
+					});
+					res.status(200).redirect('/admin/dashboard');
+					break;
+				default:
+					Logger.error({
+						'description': 'Failed to remove user',
+						'path': '/admin/alter-user'
+					});
+					res.status(500).send('<img src="../img/500.png" alt="500"/>');
+					break;
+				}
 			}
 			break;
 		default:
