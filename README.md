@@ -34,9 +34,8 @@ LOG_FILE=/var/logs/fileshare/app.log
 
 #### With Docker:
 
-- Update the ENV properties in Dockerfile.
-- docker build -f docker/Dockerfile -t filesharev1.0 .
-- docker run --name={containers_name} -d -p 8080:3000 filesharev1.0
+- docker network create --subnet=10.2.2.0/24 fileshare-network
+- docker compose up -d
 
 ### Uninstall FileShare
 

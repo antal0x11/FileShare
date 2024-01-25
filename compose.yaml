@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: fileshare
+      POSTGRES_USER: postuser
+      POSTGRES_PASSWORD: password
+    networks:
+      fileshare-network:
+        ipv4_address: 10.2.2.2
+
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    networks:
+      fileshare-network:
+        ipv4_address: 10.2.2.3
+    depends_on:
+      - postgres-db
+    ports:
+      - "8080:80"
+
+networks:
+  fileshare-network:
+    external: true

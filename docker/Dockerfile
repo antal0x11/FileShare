@@ -1,26 +1,41 @@
 FROM node:latest
 
 RUN mkdir /src
+RUN mkdir /src/config
+RUN mkdir /src/lib
+RUN mkdir /src/models
+RUN mkdir /src/routes
+RUN mkdir /src/routes/admin
+RUN mkdir /src/static
+
 RUN mkdir /uploads
 RUN mkdir /var/logs
 RUN mkdir /var/logs/fileshare
 RUN touch /var/logs/fileshare/app.log
 RUN mkdir /tmp/fileshare
 
-ENV PORT=3000
-ENV DB_USER={postgres_username}
-ENV DB_PASS={postgres_password}
+ENV PORT=80
+ENV DB_USER=postuser
+ENV DB_PASS=password
 ENV DB=fileshare
-ENV DB_HOST={postgres_ip}
-ENV DB_PORT={postgres_port}
+ENV DB_HOST=10.2.2.2
+ENV DB_PORT=5432
 ENV SECRET=mysupersecret
 ENV UPLOAD=/uploads
 ENV TMP=/tmp/fileshare
 ENV LOG_FILE=/var/logs/fileshare/app.log
 
 WORKDIR /src
-COPY ../package.json .
+
+COPY ./package.json .
+
 RUN npm install
-COPY ../ /src
-EXPOSE 3000
+
+COPY ./config ./config
+COPY ./lib ./lib
+COPY ./models ./models
+COPY ./routes ./routes
+COPY ./static ./static
+COPY ./index.js .
+
 CMD ["npm","start"]
