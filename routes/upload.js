@@ -26,7 +26,18 @@ const storage = multer.diskStorage({
 		}
 	},
 	filename: function(req, file, cb) {
-		cb(null,file.originalname);
+		try {
+			const pattern = /^[a-zA-Z0-9_\-\.]+$/;
+			const patternEscape = /[<>&"'\/]/; 
+			if (!pattern.test(file.originalname) && patternEscape.test(file.originalname)) {
+				throw new Error('Improper file name.');
+			}
+		} catch(error) {
+			req.improperFileProps = true;
+			Logger.warning({ 'description': error.toString().split(': ')[1], 'path': '/upload', 'method': 'POST' });
+		} finally {
+			cb(null,file.originalname);
+		}
 	}
 });
 
@@ -65,6 +76,21 @@ function uploadRoute(req, res) {
 			}
 		});
 		break;
+	}
+}
+
+function validParams(req, res, next) {
+
+	if (req.improperFileProps === true) {
+
+		const source = path.join(process.env.TMP, req.session.userId, req.file.originalname);
+		fs.unlink( source, (error) => {
+			if (error) throw error;
+		});
+		res.status(400).send('<img src="img/400.png" alt="400"/>');
+
+	} else {
+		next();
 	}
 }
 
@@ -129,5 +155,5 @@ async function uploadFile(req, res) {
 }
 
 router.get('/upload', isAuthenticated, uploadRoute);
-router.post('/upload', isAuthenticated, upload.single('upd_file'), uploadFile);
+router.post('/upload', isAuthenticated, upload.single('upd_file'), validParams, uploadFile);
 module.exports = router;
