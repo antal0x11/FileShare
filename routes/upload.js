@@ -13,16 +13,24 @@ const router = express.Router();
 
 const storage = multer.diskStorage({
 	destination: function(req, file, cb) {
+			
+		let directoryDestination = path.join(process.env.TMP, `${req.session.userId}`);	
+
 		try {
-			if (req.session.firstname === 'Admin') throw new Error('Admin user cant upload.');
-			const directoryDestination = path.join(process.env.TMP, `${req.session.userId}`);
-			if (fs.existsSync(directoryDestination)) {
-				cb(null, directoryDestination);
-			} else {
+			if (req.session.firstname === 'Admin') {
+				directoryDestination = process.env.TMP;
+				req.invalidFileDirectory = true;
+				throw new Error('Admin user cant upload.');
+			}
+			if (!fs.existsSync(directoryDestination)) {
+				directoryDestination = process.env.TMP;
+				req.invalidFileDirectory = true;
 				throw new Error('Folder should exist.');
 			}
 		} catch(error) {
 			Logger.info({ 'description': error.toString().split(': ')[1], 'path': '/upload', 'method': 'POST' });
+		} finally {
+			cb(null, directoryDestination);
 		}
 	},
 	filename: function(req, file, cb) {
@@ -81,14 +89,28 @@ function uploadRoute(req, res) {
 
 function validParams(req, res, next) {
 
-	if (req.improperFileProps === true) {
+	let source;
+	let stopRequest = false;
 
-		const source = path.join(process.env.TMP, req.session.userId, req.file.originalname);
+	if (req.invalidFileDirectory === true) {
+		source = path.join(process.env.TMP, req.file.originalname);
+		stopRequest = true;
+	}
+
+	if (req.improperFileProps === true) {
+		stopRequest = true;
+		source = path.join(process.env.TMP, req.session.userId, req.file.originalname);
+	} 
+
+	if (req.invalidFileDirectory === true && req.improperFileProps === true) {
+		source = path.join(process.env.TMP, req.file.originalname);
+	}
+
+	if (stopRequest) {
 		fs.unlink( source, (error) => {
 			if (error) throw error;
 		});
 		res.status(400).send('<img src="img/400.png" alt="400"/>');
-
 	} else {
 		next();
 	}
