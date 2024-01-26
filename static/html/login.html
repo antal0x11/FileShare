@@ -18,14 +18,23 @@
 		</ul>
 
 		<h3>Login</h3>
-		<div class="form">
-			<form action="/login" method="post">
-				<label for="user">Username: </label>
-				<input type="text" id="user" name="username" placeholder="Type your username" />
-				<label for="pass">Password: </label>
-				<input type="password" id="pass" name="password" placeholder="Type your password" />
-				<input type="submit" value="Login" />
-			</form>
+		<div class="login-pos">
+			<div class='login-block'>
+				<p>Welcome to FileShare</p>
+				<form action="/login" method="post" class="login-form-block">
+					<div>
+						<label for="user">Username: </label>
+						<input type="text" id="user" name="username" placeholder="Type your username" />
+					</div>
+					<div>
+						<label for="pass">Password: </label>
+						<input type="password" id="pass" name="password" placeholder="Type your password" />
+					</div>
+					<div>
+						<input type="submit" value="Login" />
+					</div>
+				</form>
+			</div>
 		</div>
 	</body>
 </html>
