@@ -64,6 +64,9 @@ async function removeFile(req, res) {
 			'path': '/remove',
 			'method': 'POST'
 		});
+		res.status(500).json({
+			'status': 'internal error'
+		})
 	}
 }
 
