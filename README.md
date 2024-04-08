@@ -1,5 +1,6 @@
 # FileShare
 FileShare is a minimal app that helps you share files.
+> Default credentials admin:1111
 
 ![FileShare](./pic/fileshare.png)
 
